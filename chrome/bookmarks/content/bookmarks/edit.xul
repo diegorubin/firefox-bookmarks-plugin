@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://gspace/locale/gspace.dtd">
+
+
+<dialog id="editBookmark" 
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="accept,cancel"
+        ondialogaccept="return editWindow.doOk();"
+        ondialogcancel="return editWindow.doCancel();"
+	onload="sizeToContent();editWindow.init();"
+	buttonlabelaccept="Ok">
+
+  <script type="application/x-javascript" src="chrome://bookmarks/content/bookmarks/main.js" />
+	
+	<stringbundleset id="stringbundleset">
+	   <stringbundle id="bookmarks-strings" src="chrome://bookmarks/locale/bookmarks.properties"/>
+	</stringbundleset>
+	
+	<vbox align="left">
+		<groupbox>
+			<caption id="bookmarks-groupbox-caption" label="Add Bookmark Details"/>
+			<grid>
+				<columns>
+					<column/>
+					<column flex="1"/>
+				</columns>
+
+				<rows>
+					<row>
+						<label control="lblTitle" value="Título: "/>
+						<textbox id="txtTitle" size="40"/>
+						
+					</row>
+					<row>
+						<label control="lblTags" value="Tags: "/>
+            <textbox id="gbmCategory" editable="true" />
+					</row>
+
+				</rows>
+			</grid>
+		</groupbox>
+	</vbox>
+
+</dialog>
+

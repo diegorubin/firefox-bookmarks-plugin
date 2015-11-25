@@ -1,0 +1,8 @@
+content	bookmarks	chrome/bookmarks/content/
+
+skin	bookmarks classic/1.0	/skin/classic/bookmarks/
+
+locale	bookmarks en-US	/locale/bookmarks/en-US/
+
+overlay	chrome://browser/content/browser.xul	chrome://bookmarks/content/browser.overlay
+

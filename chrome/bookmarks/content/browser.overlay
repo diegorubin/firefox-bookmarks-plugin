@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "chrome://bookmarks/locale/bookmarks.dtd">
+<?xml-stylesheet href="chrome://bookmarks/skin/" type="text/css"?>
+
+<overlay id="bookmarksOverlay" 
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	xmlns:html="http://www.w3.org/1999/xhtml" >
+
+	<script type="application/x-javascript" src="chrome://bookmarks/content/browser.js" /> 
+
+	<!-- <script src="bookmarks.js"/> -->
+	<window id="main-window">
+		<popupset id="mainPopupSet">
+		</popupset>
+	</window>
+	
+	<popup id="contentAreaContextMenu">
+		<menuitem id="contextBookmarks" oncommand="gBookmarksManager.addBookmark();" label="Adicionar Favorito" insertbefore="context-bookmarkpage"/>
+	</popup>
+
+	<menubar id="main-menubar">
+		<menu id="bookmarks-menu" label="My Bookmarks" insertafter="helpMenu" onclick="gBookmarksHandler.showPopup();">
+			<menupopup id="bookmarks-menupopup">
+
+        <menuitem id="bookmarks-addbookmark" 
+                  class="menuitem-iconic" 
+                  fixed="yes" 
+                  label="Adicionar Favorito" 
+                  oncommand="gBookmarksManager.addBookmark();"/>
+
+        <menu id="bookmarks-bookmarkslist" label="Favoritos">
+			    <menupopup id="bookmarks-tags" >
+          </menupopup>
+        </menu>
+
+			</menupopup>
+    </menu>
+	</menubar>
+</overlay>
+
