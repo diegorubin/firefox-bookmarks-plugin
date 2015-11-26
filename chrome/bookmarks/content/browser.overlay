@@ -29,7 +29,7 @@
                   oncommand="gBookmarksManager.addBookmark();"/>
 
         <menu id="bookmarks-bookmarkslist" label="Favoritos">
-			    <menupopup id="bookmarks-tags" >
+			    <menupopup id="bookmarks-titles" >
           </menupopup>
         </menu>
 

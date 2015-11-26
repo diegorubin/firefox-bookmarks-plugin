@@ -13,6 +13,17 @@ var gBookmarksManager =
 
     var link = mainWindow.getBrowser().selectedBrowser.contentWindow.location.href;
 
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('POST', 'http://bookmarks.diegorubin.com/api/v1/bookmarks', true);
+    xmlhttp.onreadystatechange = function()
+    {
+      if (xmlhttp.readyState==4) {
+        alert('link da página ' + title + ' adicionado corretamente');
+      }
+    }
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({title: title, url: link}));
+
   }
 
 };
@@ -22,12 +33,12 @@ var gBookmarksHandler =
   showPopup: function() 
   {
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", "http://diegorubin.com/admin/bookmarks.json", true);
+    xmlhttp.open("GET", "http://bookmarks.diegorubin.com/api/v1/bookmarks", true);
     xmlhttp.onreadystatechange=function()
     {
       if (xmlhttp.readyState==4)
       {
-        var menu = document.getElementById('bookmarks-tags');
+        var menu = document.getElementById('bookmarks-titles');
 
         while (menu.firstChild) {
           menu.removeChild(menu.firstChild);
@@ -35,58 +46,14 @@ var gBookmarksHandler =
 
         var jsonResponse = JSON.parse(xmlhttp.responseText);
 
-        var tags = {};
-
-        for(var link in jsonResponse)
+        for(var i in jsonResponse)
         {
-          var ts = jsonResponse[link].tags.split(",");
-          for(var t in ts)
-          {
-            ts[t] = ts[t].trim();
-            if(tags[ts[t]])
-            {
-              tags[ts[t]].push({title:jsonResponse[link].title,
-                                link:jsonResponse[link].link});
-            }
-            else
-            {
-              tags[ts[t]] = [
-                {title:jsonResponse[link].title,
-                 link:jsonResponse[link].link}
-              ];
-            }
-          }
-         
-        }
-
-        var otags = [];
-        for(var t in tags)
-          otags.push(t);
-
-        otags.sort();
-
-
-        for(var x = 0; x < otags.length; x++)
-        {
-          var t = otags[x];
-          var nmenu = document.createElement("menu");
-          nmenu.setAttribute("id", t);
-          nmenu.setAttribute("label", t);
-
-          var popup = document.createElement("menupopup");
-          popup.setAttribute("id", "t" + t);
-
-          for(var l in tags[t])
-          {
-            var item = document.createElement("menuitem");
-            item.setAttribute("label", tags[t][l].title);
-            item.setAttribute("oncommand", "goTo('"+ tags[t][l].link+"')");
+          var bookmark = jsonResponse[i];
+          var item = document.createElement("menuitem");
+          item.setAttribute("label", bookmark.title);
+          item.setAttribute("oncommand", "goTo('"+ bookmark.url +"')");
           
-            popup.appendChild(item);
-          }
-
-          nmenu.appendChild(popup);
-          menu.appendChild(nmenu); 
+          menu.appendChild(item);
         }
 
       }
@@ -96,4 +63,13 @@ var gBookmarksHandler =
     return false;
   },
 };
+
+function goTo(link)
+{
+
+  var win = Components.classes['@mozilla.org/appshell/window-mediator;1']
+      .getService(Components.interfaces.nsIWindowMediator)
+      .getMostRecentWindow('navigator:browser');
+    win.openUILinkIn(link, 'tab');
+}
 
